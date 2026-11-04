@@ -36,7 +36,7 @@ Le projet est écrit en PowerShell et repose sur deux scripts qui se relaient au
 
 ### Intégration dans MDT
 
-Le lanceur est appelé par la séquence de tâches MDT, sous forme d'une étape **Run Command Line** placée à la fin du groupe **State Restore** (après l'étape Imaging). Les trois fichiers sont déposés dans le sous-dossier `perso` des scripts du deployment share.
+Le lanceur est appelé par la séquence de tâches MDT, sous forme d'une étape **Run Command Line** placée à la fin du groupe **State Restore**. Les trois fichiers sont déposés dans le sous-dossier `perso` des scripts du deployment share.
 
 | Champ de l'étape | Valeur |
 |---|---|
