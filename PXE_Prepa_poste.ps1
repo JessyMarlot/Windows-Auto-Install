@@ -1,4 +1,4 @@
-﻿# ============================================================
+# ============================================================
 # SCRIPT DE PRÉPARATION DE POSTE - UNIFIES
 # ============================================================
 # Ce script automatise la préparation complète d'un poste Windows.
@@ -383,11 +383,11 @@ Function Write-SystemInfo {
 
 
 # ------------------------------------------------------------
-# FONCTION : CreadminBV
+# FONCTION : Creadmin
 # ------------------------------------------------------------
 # Crée le compte administrateur local "admin" s'il n'existe pas encore.
 # Le compte est ajouté au groupe Administrateurs via son SID (indépendant de la langue).
-Function CreadminBV {
+Function Creadmin {
     <#
     .SYNOPSIS
         Crée le compte administrateur local "admin".
@@ -955,7 +955,7 @@ function Wait-ForTimeout {
     
     Write-Log -Message "Démarrage du compte à rebours ($Timeout secondes)" -Level "INFO"
     
-    # Mot de passe affiché à l'utilisateur (identique à celui utilisé dans CreadminBV)
+    # Mot de passe affiché à l'utilisateur (identique à celui utilisé dans Creadmin)
     $passwordShow = $script:PasswordParam
     
     # Détection du fabricant pour affichage et transmission à ScriptAuto
@@ -1077,11 +1077,11 @@ function ScriptAuto {
     }
     
     # Étape 3 : Création du compte administrateur admin
-    if (-not (Test-StepCompleted "CreadminBV")) {
-        CreadminBV
-        Save-CheckpointStep -StepNumber 4 -StepName "CreadminBV"
+    if (-not (Test-StepCompleted "Creadmin")) {
+        Creadmin
+        Save-CheckpointStep -StepNumber 4 -StepName "Creadmin"
     } else {
-        Write-Log -Message "Etape CreadminBV deja completee" -Level "WARNING"
+        Write-Log -Message "Etape Creadmin deja completee" -Level "WARNING"
     }
     
     # Étape 4 : Désactivation du compte administrateur intégré
