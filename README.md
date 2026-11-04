@@ -34,7 +34,21 @@ Le projet est écrit en PowerShell et repose sur deux scripts qui se relaient au
 
 ## Utilisation
 
-Le lanceur est exécuté depuis le dossier qui contient les trois fichiers, avec le client visé en paramètre :
+### Intégration dans MDT
+
+Le lanceur est appelé par la séquence de tâches MDT, sous forme d'une étape **Run Command Line** placée à la fin du groupe **State Restore** (après l'étape Imaging). Les trois fichiers sont déposés dans le sous-dossier `perso` des scripts du deployment share.
+
+| Champ de l'étape | Valeur |
+|---|---|
+| Type | Run Command Line |
+| Command line | `powershell.exe -ExecutionPolicy Bypass -File "%ScriptRoot%\PXE_Lanceur.ps1" -Cible <nom_du_client>` |
+| Start in | `%ScriptRoot%\` |
+
+Il faut une séquence de tâches par client (par exemple « Installation de Win 11 automatique commun »), chacune passant sa propre valeur à `-Cible`. Les étapes MDT « Windows Update » peuvent rester désactivées : les mises à jour sont gérées par `PXE_Prepa_poste.ps1`.
+
+### Lancement manuel
+
+Le lanceur peut aussi être exécuté à la main, en copiant le projet sur un poste, depuis le dossier qui contient les trois fichiers :
 
 ```powershell
 .\PXE_Lanceur.ps1 -Cible <nom_du_client>
@@ -46,7 +60,7 @@ Le lanceur est exécuté depuis le dossier qui contient les trois fichiers, avec
 
 ```mermaid
 flowchart TD
-    A["Poste déployé via PXE (MDT/WDS)"] --> B["PXE_Lanceur.ps1 -Cible client"]
+    A["Séquence de tâches MDT : étape Run Command Line (State Restore)"] --> B["PXE_Lanceur.ps1 -Cible client"]
     B --> C["Copie des fichiers vers C:\script"]
     C --> D["Tâche de relance du lanceur"]
     D --> E["Installation de PowerShell 7"]
